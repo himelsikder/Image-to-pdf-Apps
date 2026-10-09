@@ -17,6 +17,7 @@ import {
   Columns,
 } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
+import { saveOrDownloadFile } from '../../utils/nativeFile';
 
 interface PdfViewerModalProps {
   isOpen: boolean;
@@ -177,14 +178,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
   const handleDownload = () => {
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = file.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    saveOrDownloadFile(file, file.name);
   };
 
   if (!isOpen) return null;

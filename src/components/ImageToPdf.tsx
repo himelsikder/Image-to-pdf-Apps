@@ -32,6 +32,7 @@ import {
 import { convertImagesToPdf } from '../utils/pdfConverter';
 import { saveHistoryItem } from '../utils/db';
 import { SignaturePadModal } from './SignaturePadModal';
+import { saveOrDownloadFile, shareFileNative } from '../utils/nativeFile';
 
 interface ImageToPdfProps {
   lang: 'bn' | 'en';
@@ -224,37 +225,12 @@ export const ImageToPdf: React.FC<ImageToPdfProps> = ({ lang }) => {
 
   const handleDownload = () => {
     if (!convertedPdf) return;
-    const a = document.createElement('a');
-    a.href = convertedPdf.url;
-    a.download = convertedPdf.fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    saveOrDownloadFile(convertedPdf.blob, convertedPdf.fileName);
   };
 
   const handleShare = async () => {
     if (!convertedPdf) return;
-    try {
-      const file = new File([convertedPdf.blob], convertedPdf.fileName, {
-        type: 'application/pdf',
-      });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: convertedPdf.fileName,
-          text: 'Created with Img to Pdf (100% Offline & Ads-Free)',
-        });
-      } else if (navigator.share) {
-        await navigator.share({
-          title: convertedPdf.fileName,
-          url: window.location.href,
-        });
-      } else {
-        handleDownload();
-      }
-    } catch (e) {
-      // User cancelled share
-    }
+    await shareFileNative(convertedPdf.blob, convertedPdf.fileName);
   };
 
   const formatSize = (bytes: number) => {

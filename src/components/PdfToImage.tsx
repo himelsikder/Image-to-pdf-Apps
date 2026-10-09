@@ -22,6 +22,7 @@ import {
   PdfDocumentInfo,
 } from '../utils/pdfToImage';
 import { saveHistoryItem } from '../utils/db';
+import { saveOrDownloadFile, shareFileNative } from '../utils/nativeFile';
 import * as pdfjsLib from 'pdfjs-dist';
 
 interface PdfToImageProps {
@@ -146,28 +147,11 @@ export const PdfToImage: React.FC<PdfToImageProps> = ({ lang }) => {
   };
 
   const handleDownloadSingle = (image: ConvertedPageImage) => {
-    const a = document.createElement('a');
-    a.href = image.dataUrl;
-    a.download = image.fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    saveOrDownloadFile(image.blob, image.fileName);
   };
 
   const handleShareSingle = async (image: ConvertedPageImage) => {
-    try {
-      const file = new File([image.blob], image.fileName, { type: image.blob.type });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: image.fileName,
-        });
-      } else {
-        handleDownloadSingle(image);
-      }
-    } catch (e) {
-      // Ignore user abort
-    }
+    await shareFileNative(image.blob, image.fileName);
   };
 
   const handleDownloadZip = async () => {
@@ -176,15 +160,7 @@ export const PdfToImage: React.FC<PdfToImageProps> = ({ lang }) => {
       setIsZipping(true);
       const baseName = selectedFile.name.replace(/\.pdf$/i, '');
       const zipBlob = await createZipFromImages(convertedImages, `${baseName}_images.zip`);
-      const url = URL.createObjectURL(zipBlob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${baseName}_images.zip`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      await saveOrDownloadFile(zipBlob, `${baseName}_images.zip`);
     } catch (err) {
       console.error(err);
       setErrorMsg(lang === 'bn' ? 'ZIP তৈরিতে সমস্যা হয়েছে।' : 'Failed to create ZIP archive.');

@@ -12,6 +12,9 @@ import { ImageCompressor } from './components/ImageCompressor';
 import { SettingsView } from './components/SettingsView';
 import { HistoryModal } from './components/HistoryModal';
 import { BottomNav, ActiveTab } from './components/BottomNav';
+import { Capacitor } from '@capacitor/core';
+import { App as CapApp } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('img-to-pdf');
@@ -66,6 +69,35 @@ export default function App() {
       // Storage unavailable in sandbox iframe
     }
   }, [darkMode]);
+
+  // Capacitor native status bar styling
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+    try {
+      StatusBar.setStyle({ style: darkMode ? Style.Dark : Style.Light });
+      StatusBar.setBackgroundColor({ color: darkMode ? '#090d16' : '#f8fafc' });
+    } catch {
+      // Ignore if not supported
+    }
+  }, [darkMode]);
+
+  // Capacitor native Android hardware Back Button listener
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+    const subPromise = CapApp.addListener('backButton', () => {
+      if (isHistoryOpen) {
+        setIsHistoryOpen(false);
+      } else if (activeTab !== 'img-to-pdf') {
+        setActiveTab('img-to-pdf');
+      } else {
+        CapApp.exitApp();
+      }
+    });
+
+    return () => {
+      subPromise.then((sub) => sub.remove()).catch(() => {});
+    };
+  }, [isHistoryOpen, activeTab]);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#090d16] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300 antialiased selection:bg-blue-500/20 selection:text-blue-600 dark:selection:text-blue-300">

@@ -1,4 +1,4 @@
-package com.docmorph.converter;
+package com.imgtopdf.offline;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -16,6 +16,7 @@ import {
 import { PdfMergeItem } from '../types';
 import { getPdfInfo, mergePdfFiles, removePagesFromPdf } from '../utils/pdfMerge';
 import { saveHistoryItem } from '../utils/db';
+import { saveOrDownloadFile, shareFileNative } from '../utils/nativeFile';
 
 interface PdfToolsProps {
   lang: 'bn' | 'en';
@@ -187,26 +188,12 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ lang }) => {
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
-  const triggerDownload = (url: string, name: string) => {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const triggerDownload = (blob: Blob, name: string) => {
+    saveOrDownloadFile(blob, name);
   };
 
   const triggerShare = async (blob: Blob, name: string) => {
-    try {
-      const file = new File([blob], name, { type: 'application/pdf' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: name });
-      } else {
-        triggerDownload(URL.createObjectURL(blob), name);
-      }
-    } catch (e) {
-      // User cancelled
-    }
+    await shareFileNative(blob, name);
   };
 
   return (
@@ -409,7 +396,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ lang }) => {
 
               <div className="flex items-center gap-2 pt-1">
                 <button
-                  onClick={() => triggerDownload(mergedPdf.url, mergedPdf.fileName)}
+                  onClick={() => triggerDownload(mergedPdf.blob, mergedPdf.fileName)}
                   className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5"
                 >
                   <Download className="w-4 h-4" />
@@ -527,7 +514,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ lang }) => {
               </div>
               <div className="flex items-center gap-2 pt-1">
                 <button
-                  onClick={() => triggerDownload(deletedResult.url, deletedResult.fileName)}
+                  onClick={() => triggerDownload(deletedResult.blob, deletedResult.fileName)}
                   className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5"
                 >
                   <Download className="w-4 h-4" />

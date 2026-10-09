@@ -23,6 +23,7 @@ import {
   CompressionSettings,
 } from '../utils/imageCompressor';
 import { saveHistoryItem } from '../utils/db';
+import { saveOrDownloadFile, shareFileNative } from '../utils/nativeFile';
 
 interface ImageCompressorProps {
   lang: 'bn' | 'en';
@@ -119,25 +120,11 @@ export const ImageCompressor: React.FC<ImageCompressorProps> = ({ lang }) => {
   };
 
   const handleDownloadSingle = (item: CompressedImageResult) => {
-    const a = document.createElement('a');
-    a.href = item.compressedUrl;
-    a.download = item.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    saveOrDownloadFile(item.blob, item.name);
   };
 
   const handleShareSingle = async (item: CompressedImageResult) => {
-    try {
-      const file = new File([item.blob], item.name, { type: item.blob.type });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: item.name });
-      } else {
-        handleDownloadSingle(item);
-      }
-    } catch (e) {
-      // User cancelled
-    }
+    await shareFileNative(item.blob, item.name);
   };
 
   const handleDownloadZip = async () => {
@@ -145,14 +132,7 @@ export const ImageCompressor: React.FC<ImageCompressorProps> = ({ lang }) => {
     try {
       setIsZipping(true);
       const zipBlob = await createZipOfCompressedImages(results, 'compressed_images.zip');
-      const url = URL.createObjectURL(zipBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'compressed_images.zip';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      await saveOrDownloadFile(zipBlob, 'compressed_images.zip');
     } catch (err) {
       setErrorMsg('Failed to create ZIP');
     } finally {

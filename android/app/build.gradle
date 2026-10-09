@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.docmorph.converter"
+    namespace = "com.imgtopdf.offline"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.docmorph.converter"
+        applicationId "com.imgtopdf.offline"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

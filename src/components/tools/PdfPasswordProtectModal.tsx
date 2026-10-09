@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { passwordProtectPdf } from '../../utils/advancedPdf';
 import { PDFDocument } from 'pdf-lib';
+import { saveOrDownloadFile, shareFileNative } from '../../utils/nativeFile';
 
 interface PdfPasswordProtectModalProps {
   isOpen: boolean;
@@ -119,31 +120,12 @@ export const PdfPasswordProtectModal: React.FC<PdfPasswordProtectModalProps> = (
 
   const handleDownload = () => {
     if (!result) return;
-    const a = document.createElement('a');
-    a.href = result.url;
-    a.download = result.fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    saveOrDownloadFile(result.blob, result.fileName);
   };
 
   const handleShare = async () => {
     if (!result) return;
-    try {
-      if (navigator.share && navigator.canShare) {
-        const shareFile = new File([result.blob], result.fileName, { type: 'application/pdf' });
-        if (navigator.canShare({ files: [shareFile] })) {
-          await navigator.share({
-            files: [shareFile],
-            title: result.fileName,
-          });
-          return;
-        }
-      }
-      handleDownload();
-    } catch {
-      handleDownload();
-    }
+    await shareFileNative(result.blob, result.fileName);
   };
 
   const handleReset = () => {
