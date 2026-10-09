@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.docmorph.app",
+      "sha256_cert_fingerprints": [
+        "14:6D:E9:7D:0F:52:CC:71:3E:4E:4E:91:B2:97:57:3B:11:29:49:3F:05:1F:0F:07:4E:A5:72:42:0A:4E:3A:42"
+      ]
+    }
+  }
+]

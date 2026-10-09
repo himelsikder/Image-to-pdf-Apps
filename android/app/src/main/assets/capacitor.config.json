@@ -1,0 +1,16 @@
+{
+	"appId": "com.imgtopdf.offline",
+	"appName": "Img to Pdf Offline",
+	"webDir": "dist",
+	"bundledWebRuntime": false,
+	"server": {
+		"androidScheme": "https",
+		"cleartext": false
+	},
+	"android": {
+		"allowMixedContent": false,
+		"captureInput": true,
+		"webContentsDebuggingEnabled": false,
+		"backgroundColor": "#090d16"
+	}
+}

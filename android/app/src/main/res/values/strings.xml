@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Img to Pdf Offline</string>
+    <string name="title_activity_main">Img to Pdf</string>
+    <string name="package_name">com.imgtopdf.offline</string>
+    <string name="custom_url_scheme">com.imgtopdf.offline</string>
+</resources>

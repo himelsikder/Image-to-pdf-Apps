@@ -1,0 +1,6 @@
+{
+  "name": "DocMorph - Offline PDF & Image Converter",
+  "description": "100% offline, ads-free PDF to Image and Image to PDF converter for mobile and desktop. Process documents locally with zero server upload.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
