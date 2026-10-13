@@ -81,11 +81,11 @@ button, a {
   touch-action: manipulation;
 }
 
-/* Safe area for modern mobile devices (notch, gesture pill, home bar) */
+/* Safe area for modern mobile devices (notch, gesture pill, home bar, status bar) */
 .pb-safe {
   padding-bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
 }
 
 .pt-safe {
-  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
 }

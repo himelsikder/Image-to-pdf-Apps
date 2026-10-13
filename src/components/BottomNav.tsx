@@ -12,20 +12,20 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onSelectTab, lang }) => {
   const tabs = [
     {
-      id: 'img-to-pdf' as ActiveTab,
-      labelBn: 'ছবি ➔ PDF',
-      labelEn: 'Img to PDF',
-      icon: FileText,
-      color: 'text-blue-600 dark:text-blue-400',
-      activeBg: 'bg-blue-100/80 dark:bg-blue-900/50',
-    },
-    {
       id: 'pdf-to-img' as ActiveTab,
       labelBn: 'PDF ➔ ছবি',
       labelEn: 'PDF to Img',
       icon: ImageIcon,
       color: 'text-indigo-600 dark:text-indigo-400',
       activeBg: 'bg-indigo-100/80 dark:bg-indigo-900/50',
+    },
+    {
+      id: 'img-to-pdf' as ActiveTab,
+      labelBn: 'ছবি ➔ PDF',
+      labelEn: 'Img to PDF',
+      icon: FileText,
+      color: 'text-blue-600 dark:text-blue-400',
+      activeBg: 'bg-blue-100/80 dark:bg-blue-900/50',
     },
     {
       id: 'img-compress' as ActiveTab,

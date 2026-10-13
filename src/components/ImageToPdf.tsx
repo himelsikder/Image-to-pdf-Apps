@@ -225,7 +225,7 @@ export const ImageToPdf: React.FC<ImageToPdfProps> = ({ lang }) => {
 
   const handleDownload = () => {
     if (!convertedPdf) return;
-    saveOrDownloadFile(convertedPdf.blob, convertedPdf.fileName);
+    saveOrDownloadFile(convertedPdf.blob, convertedPdf.fileName, { lang });
   };
 
   const handleShare = async () => {

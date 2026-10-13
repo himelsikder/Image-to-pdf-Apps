@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   const isOnline = useOnlineStatus();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/70 bg-white/85 dark:bg-[#090d16]/85 backdrop-blur-xl transition-colors">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/70 bg-white/85 dark:bg-[#090d16]/85 backdrop-blur-xl transition-colors pt-safe">
       <div className="max-w-6xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-3">
         {/* Brand Wordmark & Logo */}
         <button

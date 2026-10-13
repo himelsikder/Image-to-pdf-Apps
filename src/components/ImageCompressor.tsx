@@ -120,7 +120,7 @@ export const ImageCompressor: React.FC<ImageCompressorProps> = ({ lang }) => {
   };
 
   const handleDownloadSingle = (item: CompressedImageResult) => {
-    saveOrDownloadFile(item.blob, item.name);
+    saveOrDownloadFile(item.blob, item.name, { lang });
   };
 
   const handleShareSingle = async (item: CompressedImageResult) => {
@@ -132,7 +132,7 @@ export const ImageCompressor: React.FC<ImageCompressorProps> = ({ lang }) => {
     try {
       setIsZipping(true);
       const zipBlob = await createZipOfCompressedImages(results, 'compressed_images.zip');
-      await saveOrDownloadFile(zipBlob, 'compressed_images.zip');
+      await saveOrDownloadFile(zipBlob, 'compressed_images.zip', { lang });
     } catch (err) {
       setErrorMsg('Failed to create ZIP');
     } finally {

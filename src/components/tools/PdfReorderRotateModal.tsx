@@ -188,7 +188,7 @@ export const PdfReorderRotateModal: React.FC<PdfReorderRotateModalProps> = ({
 
   const handleDownload = () => {
     if (!result) return;
-    saveOrDownloadFile(result.blob, result.fileName);
+    saveOrDownloadFile(result.blob, result.fileName, { lang });
   };
 
   const handleShare = async () => {

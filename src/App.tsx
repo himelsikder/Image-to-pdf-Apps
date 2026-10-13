@@ -12,12 +12,13 @@ import { ImageCompressor } from './components/ImageCompressor';
 import { SettingsView } from './components/SettingsView';
 import { HistoryModal } from './components/HistoryModal';
 import { BottomNav, ActiveTab } from './components/BottomNav';
+import { ToastContainer } from './components/Toast';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('img-to-pdf');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('pdf-to-img');
   // Default language is English ('en'), user can toggle to Bengali ('bn')
   const [lang, setLang] = useState<'bn' | 'en'>(() => {
     try {
@@ -87,8 +88,8 @@ export default function App() {
     const subPromise = CapApp.addListener('backButton', () => {
       if (isHistoryOpen) {
         setIsHistoryOpen(false);
-      } else if (activeTab !== 'img-to-pdf') {
-        setActiveTab('img-to-pdf');
+      } else if (activeTab !== 'pdf-to-img') {
+        setActiveTab('pdf-to-img');
       } else {
         CapApp.exitApp();
       }
@@ -137,6 +138,9 @@ export default function App() {
         onSelectTab={setActiveTab}
         lang={lang}
       />
+
+      {/* Toast Notification Container */}
+      <ToastContainer />
 
       {/* History Modal */}
       <HistoryModal

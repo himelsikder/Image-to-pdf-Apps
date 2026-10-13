@@ -147,7 +147,7 @@ export const PdfToImage: React.FC<PdfToImageProps> = ({ lang }) => {
   };
 
   const handleDownloadSingle = (image: ConvertedPageImage) => {
-    saveOrDownloadFile(image.blob, image.fileName);
+    saveOrDownloadFile(image.blob, image.fileName, { lang });
   };
 
   const handleShareSingle = async (image: ConvertedPageImage) => {
@@ -160,7 +160,7 @@ export const PdfToImage: React.FC<PdfToImageProps> = ({ lang }) => {
       setIsZipping(true);
       const baseName = selectedFile.name.replace(/\.pdf$/i, '');
       const zipBlob = await createZipFromImages(convertedImages, `${baseName}_images.zip`);
-      await saveOrDownloadFile(zipBlob, `${baseName}_images.zip`);
+      await saveOrDownloadFile(zipBlob, `${baseName}_images.zip`, { lang });
     } catch (err) {
       console.error(err);
       setErrorMsg(lang === 'bn' ? 'ZIP তৈরিতে সমস্যা হয়েছে।' : 'Failed to create ZIP archive.');

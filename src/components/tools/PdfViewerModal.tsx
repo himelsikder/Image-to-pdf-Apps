@@ -178,7 +178,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
   const handleDownload = () => {
     if (!file) return;
-    saveOrDownloadFile(file, file.name);
+    saveOrDownloadFile(file, file.name, { lang });
   };
 
   if (!isOpen) return null;

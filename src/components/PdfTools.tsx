@@ -189,7 +189,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ lang }) => {
   };
 
   const triggerDownload = (blob: Blob, name: string) => {
-    saveOrDownloadFile(blob, name);
+    saveOrDownloadFile(blob, name, { lang });
   };
 
   const triggerShare = async (blob: Blob, name: string) => {
