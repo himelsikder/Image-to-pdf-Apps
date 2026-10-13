@@ -86,6 +86,9 @@ export async function renderPageToImage(
   const ext = options.format === 'png' ? 'png' : options.format === 'webp' ? 'webp' : 'jpg';
   const quality = options.format === 'png' ? 1.0 : 0.92;
 
+  const renderedWidth = canvas.width;
+  const renderedHeight = canvas.height;
+
   const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (b) => {
@@ -97,6 +100,17 @@ export async function renderPageToImage(
     );
   });
 
+  // Fast GPU memory release
+  canvas.width = 0;
+  canvas.height = 0;
+
+  // Release PDF.js internal page font and glyph caches
+  try {
+    page.cleanup();
+  } catch {
+    // Ignore if not supported
+  }
+
   const dataUrl = URL.createObjectURL(blob);
   const padNum = String(pageNumber).padStart(2, '0');
   const fileName = `${baseFileName}_page_${padNum}.${ext}`;
@@ -105,8 +119,8 @@ export async function renderPageToImage(
     pageNumber,
     dataUrl,
     blob,
-    width: canvas.width,
-    height: canvas.height,
+    width: renderedWidth,
+    height: renderedHeight,
     fileName,
   };
 }
@@ -129,6 +143,8 @@ export async function convertPdfToImages(
     if (onProgress) {
       onProgress(i + 1, pagesToConvert.length);
     }
+    // Allow UI thread to breathe and update progress bar smoothly
+    await new Promise((resolve) => setTimeout(resolve, 0));
     const pageImage = await renderPageToImage(doc, pageNum, options, baseFileName);
     results.push(pageImage);
   }
@@ -146,5 +162,9 @@ export async function createZipFromImages(
     zip.file(img.fileName, img.blob);
   }
 
-  return await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+  // Pre-compressed images (JPEG/PNG/WebP) do not need heavy CPU deflate re-compression
+  return await zip.generateAsync({
+    type: 'blob',
+    compression: 'STORE',
+  });
 }

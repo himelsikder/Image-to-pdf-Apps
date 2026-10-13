@@ -108,6 +108,10 @@ export async function processImageCanvas(
             return;
           }
           const arrayBuffer = await blob.arrayBuffer();
+          // Promptly release canvas texture and image memory
+          canvas.width = 0;
+          canvas.height = 0;
+          img.src = '';
           resolve({
             bytes: new Uint8Array(arrayBuffer),
             width: destWidth,
@@ -167,6 +171,7 @@ export async function convertImagesToPdf(
     if (onProgress) {
       onProgress(i + 1, items.length);
     }
+    await new Promise((resolve) => setTimeout(resolve, 0));
     const item = items[i];
     const { bytes, width: imgW, height: imgH } = await processImageCanvas(item, quality);
 

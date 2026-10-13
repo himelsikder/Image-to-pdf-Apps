@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - Img to Pdf Offline</title>
+  <meta name="description" content="Terms of Service for Img to Pdf Offline (com.imgtopdf.offline) - 100% offline document and image conversion utility.">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --badge-bg: #ede9fe;
+      --badge-text: #6d28d9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --border: #334155;
+        --badge-bg: #2e1065;
+        --badge-text: #c4b5fd;
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 24px 16px 60px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+    .app-badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .meta-info {
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+      margin: 20px 0;
+    }
+    .lang-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .lang-section {
+      display: none;
+    }
+    .lang-section.active {
+      display: block;
+    }
+    h2 {
+      font-size: 19px;
+      font-weight: 700;
+      margin: 28px 0 12px;
+      color: var(--text);
+      border-left: 4px solid var(--primary);
+      padding-left: 12px;
+    }
+    p {
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+    ul {
+      margin: 10px 0 18px 24px;
+      font-size: 15px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .highlight-box {
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      font-weight: 500;
+    }
+    .contact-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+    .contact-card strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 13px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <span class="app-badge">Terms of Service / ব্যবহারের শর্তাবলী</span>
+      <h1>Terms of Service</h1>
+      <p style="color: var(--text-muted); font-size: 15px;">App: <strong>Img to Pdf Offline</strong> (Package: <code>com.imgtopdf.offline</code>)</p>
+      <div class="meta-info">
+        <span>📅 Effective Date: October 2026</span>
+        <span>👤 Developer: Himel Sikder</span>
+        <span>✉️ himelsikder16@gmail.com</span>
+      </div>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="switchLang('en')">English</button>
+      <button class="lang-btn" onclick="switchLang('bn')">বাংলা (Bengali)</button>
+    </div>
+
+    <!-- English Section -->
+    <div id="lang-en" class="lang-section active">
+      <div class="highlight-box">
+        <strong>Summary:</strong> Img to Pdf Offline is a 100% on-device utility. You retain full ownership of all documents and images you process. No accounts, subscriptions, or hidden tracking are involved.
+      </div>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>By downloading, installing, or using <strong>Img to Pdf Offline</strong> (the "Application"), you agree to be bound by these Terms of Service. If you do not agree with any of these terms, please do not use the Application.</p>
+
+      <h2>2. Permitted Use & Local Processing</h2>
+      <p>This Application is provided as a utility tool for converting images to PDF documents, extracting images from PDFs, splitting, reordering, rotating, compressing, and password-protecting PDF files. All processing is conducted locally on your device with no external server involvement.</p>
+      <ul>
+        <li>You may use the Application for personal, educational, or commercial document conversion tasks.</li>
+        <li>You agree not to use the Application for any unlawful activities or in violation of applicable laws.</li>
+      </ul>
+
+      <h2>3. Intellectual Property & Document Ownership</h2>
+      <p><strong>Your Documents:</strong> You retain complete ownership and intellectual property rights over all images, documents, and files processed through this Application. The developer makes no claim of ownership over your data.</p>
+      <p><strong>Application Assets:</strong> The application design, source code architecture, trademarks, and logos are property of Himel Sikder.</p>
+
+      <h2>4. Disclaimers & Limitation of Liability</h2>
+      <p>The Application is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind. While the application is rigorously tested to preserve original image quality and document fidelity, the developer shall not be held liable for any incidental data loss or issues resulting from device hardware failure or low device storage.</p>
+
+      <h2>5. Changes to Terms</h2>
+      <p>We may update these terms occasionally to reflect regulatory changes or new features. Updates will be posted on this page with an updated effective date.</p>
+
+      <div class="contact-card">
+        <strong>Contact Information / Support</strong>
+        <p>If you have any questions or feedback regarding these Terms of Service, please reach out directly:</p>
+        <p><strong>Developer:</strong> Himel Sikder</p>
+        <p><strong>Email:</strong> <a href="mailto:himelsikder16@gmail.com">himelsikder16@gmail.com</a></p>
+        <p><strong>Privacy Policy:</strong> <a href="/privacy.html">View Privacy Policy</a></p>
+      </div>
+    </div>
+
+    <!-- Bengali Section -->
+    <div id="lang-bn" class="lang-section">
+      <div class="highlight-box">
+        <strong>সংক্ষেপে:</strong> "Img to Pdf Offline" সম্পূর্ণভাবে আপনার ডিভাইসের ভেতরে অফলাইনে কাজ করে। আপনার কোনো ফাইল বা ডকুমেন্ট কোথাও পাঠানো হয় না। আপনার সমস্ত ডকুমেন্টের পূর্ণ স্বত্বাধিকার কেবল আপনারই।
+      </div>
+
+      <h2>১. শর্তাবলীর গ্রহণযোগ্যতা</h2>
+      <p><strong>Img to Pdf Offline</strong> ডাউনলোড, ইনস্টল বা ব্যবহার করার মাধ্যমে আপনি এই ব্যবহারের শর্তাবলীর সাথে সম্মত হচ্ছেন। আপনি এই শর্তাবলীতে একমত না হলে অ্যাপটি ব্যবহার না করার অনুরোধ করা হচ্ছে।</p>
+
+      <h2>২. অনুমোদিত ব্যবহার ও লোকাল প্রসেসিং</h2>
+      <p>এই অ্যাপটি আপনার ডিভাইসে ছবি থেকে পিডিএফ তৈরি, পিডিএফ থেকে ছবি বের করা, পিডিএফ মার্জ, স্প্লিট, কম্প্রেস এবং পাসওয়ার্ড সুরক্ষার জন্য তৈরি করা হয়েছে। কোনো ফাইল সার্ভারে আপলোড করা হয় না।</p>
+      <ul>
+        <li>আপনি ব্যক্তিগত, প্রাতিষ্ঠানিক বা বাণিজ্যিক যেকোনো বৈধ কাজের জন্য নির্দ্বিধায় এই অ্যাপটি ব্যবহার করতে পারেন।</li>
+        <li>কোনো বেআইনি বা নিয়মবহির্ভূত কাজে অ্যাপটি ব্যবহার করা যাবে না।</li>
+      </ul>
+
+      <h2>৩. ফাইলের মালিকানা ও বুদ্ধিবৃত্তিক স্বত্ব</h2>
+      <p><strong>আপনার ফাইলের স্বত্ব:</strong> আপনার কনভার্ট করা বা সংরক্ষিত যেকোনো ছবির পূর্ণ মালিক কেবল আপনি। ডেভেলপার আপনার ফাইলের ওপর কোনো অধিকার দাবি করে না।</p>
+      <p><strong>অ্যাপের স্বত্ব:</strong> অ্যাপের নাম, লোগো ও ব্র্যান্ড পরিচয় ডেভেলপার হিমেল সিকদার (Himel Sikder)-এর সংরক্ষিত।</p>
+
+      <h2>৪. ওয়ারেন্টি ও দায়বদ্ধতার সীমাবদ্ধতা</h2>
+      <p>অ্যাপটি অত্যন্ত নির্ভরযোগ্যভাবে আপনার ডিভাইসেই ফাইল প্রক্রিয়া করার জন্য তৈরি। তবে ডিভাইসের মেমোরি সংকট বা সিস্টেমের ত্রুটির কারণে ফাইল সংক্রান্ত কোনো অসাবধানতাবশত ক্ষতির জন্য ডেভেলপার দায়ী থাকবে না। সবসময় গুরুত্বপূর্ণ ফাইলের ব্যাকআপ রাখার পরামর্শ দেওয়া হয়।</p>
+
+      <h2>৫. শর্তাবলী পরিবর্তন</h2>
+      <p>প্রয়োজনে বা আইনি নির্দেশিকা পরিবর্তনের সাথে সাথে এই শর্তাবলী আপডেট হতে পারে। আপডেটেড শর্তাবলী এই পেজে প্রকাশ করা হবে।</p>
+
+      <div class="contact-card">
+        <strong>ডেভেলপারের সাথে যোগাযোগ / সাপোর্ট</strong>
+        <p>শর্তাবলী সম্পর্কে কোনো প্রশ্ন থাকলে নির্দ্বিধায় ইমেইলে যোগাযোগ করতে পারেন:</p>
+        <p><strong>ডেভেলপার:</strong> Himel Sikder (হিমেল সিকদার)</p>
+        <p><strong>ইমেইল:</strong> <a href="mailto:himelsikder16@gmail.com">himelsikder16@gmail.com</a></p>
+        <p><strong>প্রাইভেসি পলিসি:</strong> <a href="/privacy.html">প্রাইভেসি পলিসি পেজ দেখুন</a></p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2026 Himel Sikder. All rights reserved. Img to Pdf Offline.</p>
+    </div>
+  </div>
+
+  <script>
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.lang-section').forEach(sec => sec.classList.remove('active'));
+      
+      if (lang === 'bn') {
+        document.querySelectorAll('.lang-btn')[1].classList.add('active');
+        document.getElementById('lang-bn').classList.add('active');
+      } else {
+        document.querySelectorAll('.lang-btn')[0].classList.add('active');
+        document.getElementById('lang-en').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -3,19 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
-import { ImageToPdf } from './components/ImageToPdf';
 import { PdfToImage } from './components/PdfToImage';
-import { PdfTools } from './components/PdfTools';
-import { ImageCompressor } from './components/ImageCompressor';
-import { SettingsView } from './components/SettingsView';
-import { HistoryModal } from './components/HistoryModal';
 import { BottomNav, ActiveTab } from './components/BottomNav';
 import { ToastContainer } from './components/Toast';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
+
+// Lazy load heavy tabs so initial app startup is instant
+const ImageToPdf = lazy(() => import('./components/ImageToPdf').then((m) => ({ default: m.ImageToPdf })));
+const ImageCompressor = lazy(() => import('./components/ImageCompressor').then((m) => ({ default: m.ImageCompressor })));
+const PdfTools = lazy(() => import('./components/PdfTools').then((m) => ({ default: m.PdfTools })));
+const SettingsView = lazy(() => import('./components/SettingsView').then((m) => ({ default: m.SettingsView })));
+const HistoryModal = lazy(() => import('./components/HistoryModal').then((m) => ({ default: m.HistoryModal })));
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('pdf-to-img');
@@ -100,6 +102,17 @@ export default function App() {
     };
   }, [isHistoryOpen, activeTab]);
 
+  // Prefetch other modules after initial render when device is idle
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      import('./components/ImageToPdf');
+      import('./components/ImageCompressor');
+      import('./components/PdfTools');
+      import('./components/SettingsView');
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#090d16] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300 antialiased selection:bg-blue-500/20 selection:text-blue-600 dark:selection:text-blue-300">
       {/* Header Bar */}
@@ -117,18 +130,29 @@ export default function App() {
       <main className="flex-1 max-w-5xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6 pb-28 sm:pb-24 space-y-5">
         {/* Active Tool View */}
         <div className="animate-fadeIn transition-all">
-          {activeTab === 'img-to-pdf' && <ImageToPdf lang={lang} />}
-          {activeTab === 'pdf-to-img' && <PdfToImage lang={lang} />}
-          {activeTab === 'img-compress' && <ImageCompressor lang={lang} />}
-          {activeTab === 'pdf-tools' && <PdfTools lang={lang} />}
-          {activeTab === 'settings' && (
-            <SettingsView
-              lang={lang}
-              onToggleLang={() => setLang(lang === 'bn' ? 'en' : 'bn')}
-              darkMode={darkMode}
-              onToggleTheme={() => setDarkMode(!darkMode)}
-            />
-          )}
+          <Suspense
+            fallback={
+              <div className="py-24 flex flex-col items-center justify-center gap-3">
+                <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                <span className="text-xs text-slate-400 font-medium animate-pulse">
+                  {lang === 'bn' ? 'লোড হচ্ছে...' : 'Loading module...'}
+                </span>
+              </div>
+            }
+          >
+            {activeTab === 'pdf-to-img' && <PdfToImage lang={lang} />}
+            {activeTab === 'img-to-pdf' && <ImageToPdf lang={lang} />}
+            {activeTab === 'img-compress' && <ImageCompressor lang={lang} />}
+            {activeTab === 'pdf-tools' && <PdfTools lang={lang} />}
+            {activeTab === 'settings' && (
+              <SettingsView
+                lang={lang}
+                onToggleLang={() => setLang(lang === 'bn' ? 'en' : 'bn')}
+                darkMode={darkMode}
+                onToggleTheme={() => setDarkMode(!darkMode)}
+              />
+            )}
+          </Suspense>
         </div>
       </main>
 
@@ -143,11 +167,15 @@ export default function App() {
       <ToastContainer />
 
       {/* History Modal */}
-      <HistoryModal
-        isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
-        lang={lang}
-      />
+      {isHistoryOpen && (
+        <Suspense fallback={null}>
+          <HistoryModal
+            isOpen={isHistoryOpen}
+            onClose={() => setIsHistoryOpen(false)}
+            lang={lang}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

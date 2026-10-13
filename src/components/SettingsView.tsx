@@ -15,6 +15,12 @@ import {
   Eye,
   Scissors,
   RotateCw,
+  ExternalLink,
+  Smartphone,
+  Share2,
+  Sparkles,
+  Link as LinkIcon,
+  Mail,
 } from 'lucide-react';
 import { clearHistory } from '../utils/db';
 import { PdfPasswordProtectModal } from './tools/PdfPasswordProtectModal';
@@ -29,7 +35,7 @@ interface SettingsViewProps {
   onToggleTheme: () => void;
 }
 
-type ModalType = 'privacy' | 'datasafety' | 'permissions' | 'terms' | null;
+type ModalType = 'privacy' | 'datasafety' | 'permissions' | 'terms' | 'playstore' | null;
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
   lang,
@@ -44,9 +50,39 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [isReorderModalOpen, setIsReorderModalOpen] = useState(false);
   const [viewerFile, setViewerFile] = useState<File | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [clearingCache, setClearingCache] = useState(false);
   const [cacheCleared, setCacheCleared] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+
+  // Play Store URLs and submission kit
+  const livePrivacyUrl = 'https://ais-pre-m5mupijs4prkf2srdl36be-825525924316.asia-southeast1.run.app/privacy.html';
+  const liveTermsUrl = 'https://ais-pre-m5mupijs4prkf2srdl36be-825525924316.asia-southeast1.run.app/terms.html';
+  const liveAppUrl = 'https://ais-pre-m5mupijs4prkf2srdl36be-825525924316.asia-southeast1.run.app';
+  const githubPrivacyTemplate = 'https://[your-username].github.io/[repo-name]/privacy.html';
+  const developerEmail = 'himelsikder16@gmail.com';
+  const playStoreTitle = 'Img to Pdf Offline';
+  const playStoreShortDesc = '100% offline Image to PDF and PDF to Image converter. Fast, secure & zero ads.';
+  const playStoreFullDesc = `Img to Pdf Offline is a fast, 100% on-device document converter and utility built with privacy-first architecture. Convert pictures to PDF, extract images from PDFs, compress documents, and secure your files without uploading anything to the internet.
+
+🌟 KEY FEATURES:
+• Image to PDF Converter: Convert JPG, PNG, and WebP photos into high-quality PDF documents in seconds.
+• PDF to Image Converter: Extract pages from your PDF files directly into sharp JPG or PNG images.
+• 100% Offline & Private: No internet required. All processing happens locally on your device memory. Zero tracking, zero telemetry.
+• Batch Processing: Select and organize multiple images simultaneously with smooth drag-and-drop ordering.
+• Reorder & Rotate Pages: Easily flip upside-down scans and arrange pages in any sequence.
+• PDF Page Split & Extract: Separate multi-page documents or extract specific page ranges (e.g., 1-5, 8).
+• PDF Compression: Reduce file size with selectable quality levels (Original, Good, Compact) to easily share via email.
+• Password Protection: Encrypt sensitive documents with passwords.
+• Clean & Ad-Free Experience: No intrusive popups, banners, or tracking SDKs.
+• Dual Language Support: Full support for both English and বাংলা (Bengali).
+
+🔒 PRIVACY & ZERO DATA COLLECTION:
+Your documents, bank receipts, certificates, and personal photos belong solely to you. Img to Pdf Offline does not store, collect, or transmit any user information or file contents to external cloud servers.
+
+👨‍💻 DEVELOPER & SUPPORT:
+Developer: Himel Sikder
+Contact Email: himelsikder16@gmail.com`;
 
   const handleClearCache = async () => {
     setClearingCache(true);
@@ -67,6 +103,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleCopySnippet = (key: string, text: string) => {
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2500);
     }
   };
 
@@ -511,6 +555,173 @@ Img to Pdf সম্পূর্ণ বিনামূল্যে ব্যব�
         </div>
       </div>
 
+      {/* Google Play Console Submission Hub Card */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between px-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" />
+            {lang === 'bn' ? 'প্লে-স্টোর কনসোল প্রকাশনা হাব' : 'Google Play Console Submission Hub'}
+          </span>
+          <span className="text-[10px] bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 font-semibold px-2 py-0.5 rounded-full">
+            Play Store Ready
+          </span>
+        </div>
+
+        <div className="rounded-2xl bg-gradient-to-br from-blue-50/90 to-indigo-50/70 dark:from-[#0d1728] dark:to-[#131c33] border border-blue-200/90 dark:border-blue-900/60 p-4 sm:p-5 shadow-xs space-y-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Smartphone className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                  {lang === 'bn' ? 'প্লে-স্টোর লিংক ও প্রয়োজনীয় তথ্য' : 'Play Store Links & App Data'}
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                  {lang === 'bn'
+                    ? 'প্লে-স্টোর কনসোলে দেওয়ার জন্য প্রাইভেসি পলিসি লিংক ও বিবরণ এখান থেকেই ১-ক্লিকে কপি করুন।'
+                    : 'Instant 1-click copy for Privacy Policy URL, Terms, and descriptions required by Play Console.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Copy Link Cards */}
+          <div className="space-y-2.5 pt-1">
+            {/* 1. Privacy Policy Link */}
+            <div className="p-3 bg-white dark:bg-[#0c1322] border border-blue-100 dark:border-blue-900/40 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {lang === 'bn' ? 'Privacy Policy URL (বাধ্যতামূলক লিংক)' : 'Privacy Policy URL (Mandatory)'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate select-all">
+                  {livePrivacyUrl}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                <button
+                  onClick={() => handleCopySnippet('privacyUrl', livePrivacyUrl)}
+                  className="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1 shadow-xs transition active:scale-95"
+                >
+                  {copiedKey === 'privacyUrl' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-white" />
+                      <span>{lang === 'bn' ? 'কপি হয়েছে' : 'Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>{lang === 'bn' ? 'লিংক কপি' : 'Copy'}</span>
+                    </>
+                  )}
+                </button>
+                <a
+                  href="/privacy.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-300 transition"
+                  title="Open in new tab"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Terms of Service Link */}
+            <div className="p-3 bg-white dark:bg-[#0c1322] border border-blue-100 dark:border-blue-900/40 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <FileText className="w-3.5 h-3.5 text-purple-600" />
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {lang === 'bn' ? 'Terms of Service URL (ব্যবহারের শর্তাবলী)' : 'Terms of Service URL'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate select-all">
+                  {liveTermsUrl}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                <button
+                  onClick={() => handleCopySnippet('termsUrl', liveTermsUrl)}
+                  className="px-2.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center gap-1 shadow-xs transition active:scale-95"
+                >
+                  {copiedKey === 'termsUrl' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-white" />
+                      <span>{lang === 'bn' ? 'কপি হয়েছে' : 'Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>{lang === 'bn' ? 'লিংক কপি' : 'Copy'}</span>
+                    </>
+                  )}
+                </button>
+                <a
+                  href="/terms.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-300 transition"
+                  title="Open in new tab"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* 3. Support Email */}
+            <div className="p-3 bg-white dark:bg-[#0c1322] border border-blue-100 dark:border-blue-900/40 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Mail className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {lang === 'bn' ? 'Developer Support Email' : 'Developer Email'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate select-all">
+                  {developerEmail}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                <button
+                  onClick={() => handleCopySnippet('email', developerEmail)}
+                  className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1 shadow-xs transition active:scale-95"
+                >
+                  {copiedKey === 'email' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-white" />
+                      <span>{lang === 'bn' ? 'কপি হয়েছে' : 'Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>{lang === 'bn' ? 'ইমেইল কপি' : 'Copy'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Action button to open full Play Console Kit modal */}
+          <button
+            onClick={() => setActiveModal('playstore')}
+            className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition active:scale-98"
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>
+              {lang === 'bn'
+                ? 'প্লে-স্টোরের পূর্ণ বিবরণ, ট্যাগ ও ডাটা সেফটি ফরম কপি করুন'
+                : 'Open Complete Play Store Listing Kit (Descriptions & Data Safety)'}
+            </span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
       {/* Section 2: আইনি ও নীতিমালা লিস্ট (Legal & Policies) */}
       <div className="space-y-1.5">
         <span className="px-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -611,7 +822,7 @@ Img to Pdf সম্পূর্ণ বিনামূল্যে ব্যব�
         </div>
       </div>
 
-      {/* Clean Modal for Policy / Terms / Data Safety */}
+      {/* Clean Modal for Policy / Terms / Data Safety / Play Store Submission */}
       {activeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
           <div className="bg-white dark:bg-[#101726] border border-slate-200/80 dark:border-slate-800 rounded-3xl w-full max-w-xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-scaleIn">
@@ -623,33 +834,37 @@ Img to Pdf সম্পূর্ণ বিনামূল্যে ব্যব�
                   {activeModal === 'datasafety' && <Lock className="w-4 h-4" />}
                   {activeModal === 'permissions' && <FileCheck className="w-4 h-4" />}
                   {activeModal === 'terms' && <FileText className="w-4 h-4" />}
+                  {activeModal === 'playstore' && <Smartphone className="w-4 h-4" />}
                 </div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base truncate">
                   {activeModal === 'privacy' && (lang === 'bn' ? 'গোপনীয়তা নীতি (Privacy Policy)' : 'Privacy Policy')}
                   {activeModal === 'datasafety' && (lang === 'bn' ? 'ডাটা সেফটি (Data Safety Guide)' : 'Data Safety (Play Console Guide)')}
                   {activeModal === 'permissions' && (lang === 'bn' ? 'পারমিশন ঘোষণা (Permissions Disclosure)' : 'Permissions Disclosure')}
                   {activeModal === 'terms' && (lang === 'bn' ? 'ব্যবহারের শর্তাবলী (Terms of Service)' : 'Terms of Service')}
+                  {activeModal === 'playstore' && (lang === 'bn' ? 'গুগল প্লে-স্টোর কনসোল প্রকাশনা কিট' : 'Google Play Console Submission Kit')}
                 </h3>
               </div>
 
               <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  onClick={() => copyText(getCurrentText(activeModal))}
-                  className="p-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1 transition"
-                  title="Copy text"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-600 font-bold text-[11px]">{lang === 'bn' ? 'কপি হয়েছে' : 'Copied'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-slate-500" />
-                      <span className="text-[11px]">{lang === 'bn' ? 'কপি' : 'Copy'}</span>
-                    </>
-                  )}
-                </button>
+                {activeModal !== 'playstore' && (
+                  <button
+                    onClick={() => copyText(getCurrentText(activeModal))}
+                    className="p-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1 transition"
+                    title="Copy text"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-600 font-bold text-[11px]">{lang === 'bn' ? 'কপি হয়েছে' : 'Copied'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="text-[11px]">{lang === 'bn' ? 'কপি' : 'Copy'}</span>
+                      </>
+                    )}
+                  </button>
+                )}
 
                 <button
                   onClick={() => setActiveModal(null)}
@@ -662,8 +877,242 @@ Img to Pdf সম্পূর্ণ বিনামূল্যে ব্যব�
             </div>
 
             {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line font-sans">
-              {getCurrentText(activeModal)}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+              {activeModal === 'playstore' ? (
+                <div className="space-y-4">
+                  <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/60 rounded-xl text-xs text-blue-900 dark:text-blue-300">
+                    <p className="font-semibold mb-1">
+                      {lang === 'bn' ? '💡 প্লে-স্টোরে কনসোল কপি-পেস্ট গাইড:' : '💡 Google Play Console Copy-Paste Guide:'}
+                    </p>
+                    <p className="text-[11px] text-blue-800/80 dark:text-blue-300/80">
+                      {lang === 'bn'
+                        ? 'প্রতিটি আইটেমের ডানপাশের "কপি" বাটনে চাপ দিয়ে সরাসরি গুগল প্লে কনসোলের নির্ধারিত ঘরে পেস্ট করে দিতে পারবেন।'
+                        : 'Tap the Copy button next to any item to instantly copy the exact text formatted for Google Play Console.'}
+                    </p>
+                  </div>
+
+                  {/* Item: Privacy Policy URL */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        1. Privacy Policy URL (বাধ্যতামূলক):
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleCopySnippet('modalPrivacyUrl', livePrivacyUrl)}
+                          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                        >
+                          {copiedKey === 'modalPrivacyUrl' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                          <span>{copiedKey === 'modalPrivacyUrl' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                        </button>
+                        <a
+                          href="/privacy.html"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 rounded-lg text-slate-700 dark:text-slate-300 transition"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                    <p className="font-mono text-[11px] text-blue-600 dark:text-blue-400 break-all select-all">
+                      {livePrivacyUrl}
+                    </p>
+                  </div>
+
+                  {/* Item: Terms of Service URL */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        2. Terms of Service URL (ব্যবহারের শর্তাবলী):
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleCopySnippet('modalTermsUrl', liveTermsUrl)}
+                          className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                        >
+                          {copiedKey === 'modalTermsUrl' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                          <span>{copiedKey === 'modalTermsUrl' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                        </button>
+                        <a
+                          href="/terms.html"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 rounded-lg text-slate-700 dark:text-slate-300 transition"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                    <p className="font-mono text-[11px] text-purple-600 dark:text-purple-400 break-all select-all">
+                      {liveTermsUrl}
+                    </p>
+                  </div>
+
+                  {/* Item: GitHub Pages URL formula */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        3. GitHub Pages Link Format (গিটহাবের বিকল্প লিংক):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalGithub', githubPrivacyTemplate)}
+                        className="px-2 py-1 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalGithub' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalGithub' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <p className="font-mono text-[11px] text-slate-600 dark:text-slate-400 break-all select-all">
+                      {githubPrivacyTemplate}
+                    </p>
+                  </div>
+
+                  {/* Item: Developer Email */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        4. Developer Email (সাপোর্ট ইমেইল):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalEmail', developerEmail)}
+                        className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalEmail' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalEmail' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <p className="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 break-all select-all">
+                      {developerEmail}
+                    </p>
+                  </div>
+
+                  {/* Item: App Title */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        5. App Title (শিরোনাম - Max 30 Chars):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalTitle', playStoreTitle)}
+                        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalTitle' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalTitle' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <p className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200 select-all">
+                      {playStoreTitle}
+                    </p>
+                  </div>
+
+                  {/* Item: Short Description */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        6. Short Description (সংক্ষিপ্ত বিবরণ - Max 80 Chars):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalShortDesc', playStoreShortDesc)}
+                        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalShortDesc' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalShortDesc' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 select-all leading-normal">
+                      {playStoreShortDesc}
+                    </p>
+                  </div>
+
+                  {/* Item: Full Description */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        7. Full Description (প্লে-স্টোর পূর্ণাঙ্গ বিবরণ):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalFullDesc', playStoreFullDesc)}
+                        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalFullDesc' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalFullDesc' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <pre className="text-[11px] text-slate-700 dark:text-slate-300 whitespace-pre-wrap font-sans bg-white dark:bg-[#0c121e] p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 max-h-36 overflow-y-auto">
+                      {playStoreFullDesc}
+                    </pre>
+                  </div>
+
+                  {/* Item: Data Safety Summary */}
+                  <div className="p-3 bg-slate-50 dark:bg-[#141b2d] border border-slate-200/80 dark:border-slate-800 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-xs text-slate-800 dark:text-slate-200">
+                        8. Data Safety Answers (ডাটা সেফটি ফরম উত্তর):
+                      </span>
+                      <button
+                        onClick={() => handleCopySnippet('modalDataSafety', dataSafetyTextEn)}
+                        className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition"
+                      >
+                        {copiedKey === 'modalDataSafety' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedKey === 'modalDataSafety' ? (lang === 'bn' ? 'কপি হয়েছে' : 'Copied') : (lang === 'bn' ? 'কপি' : 'Copy')}</span>
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                      • Does your app collect or share user data? 👉 <strong>No</strong><br/>
+                      • Is data encrypted in transit? 👉 <strong>Not applicable</strong> (100% on-device)<br/>
+                      • Data deletion request: 👉 <strong>Not applicable</strong> (Local only)
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Web URL banner for Privacy or Terms modal */}
+                  {(activeModal === 'privacy' || activeModal === 'terms') && (
+                    <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/60 rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-blue-900 dark:text-blue-300 text-[11px]">
+                          {lang === 'bn' ? 'প্লে-স্টোর সাবমিশনের জন্য লাইভ পাবলিক ওয়েব লিংক:' : 'Live Public Web Link for Google Play:'}
+                        </p>
+                        <p className="text-[11px] text-blue-700/80 dark:text-blue-400 font-mono truncate select-all mt-0.5">
+                          {activeModal === 'privacy' ? livePrivacyUrl : liveTermsUrl}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                        <button
+                          onClick={() => handleCopySnippet(activeModal === 'privacy' ? 'privacyUrl' : 'termsUrl', activeModal === 'privacy' ? livePrivacyUrl : liveTermsUrl)}
+                          className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] flex items-center gap-1 transition shadow-xs"
+                        >
+                          {copiedKey === (activeModal === 'privacy' ? 'privacyUrl' : 'termsUrl') ? (
+                            <>
+                              <Check className="w-3 h-3" />
+                              <span>{lang === 'bn' ? 'কপি হয়েছে' : 'Copied'}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>{lang === 'bn' ? 'লিংক কপি' : 'Copy'}</span>
+                            </>
+                          )}
+                        </button>
+                        <a
+                          href={activeModal === 'privacy' ? '/privacy.html' : '/terms.html'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 rounded-lg bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 transition"
+                          title="Open in new window"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="whitespace-pre-line leading-relaxed">
+                    {getCurrentText(activeModal)}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Modal Footer */}

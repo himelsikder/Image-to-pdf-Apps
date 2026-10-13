@@ -169,6 +169,7 @@ export async function compressMultipleImages(
     if (onProgress) {
       onProgress(i + 1, files.length);
     }
+    await new Promise((resolve) => setTimeout(resolve, 0));
     const res = await compressSingleImage(files[i], settings);
     results.push(res);
   }
@@ -183,5 +184,6 @@ export async function createZipOfCompressedImages(
   for (const it of items) {
     zip.file(it.name, it.blob);
   }
-  return await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+  // Fast zip generation for already-compressed pictures
+  return await zip.generateAsync({ type: 'blob', compression: 'STORE' });
 }
